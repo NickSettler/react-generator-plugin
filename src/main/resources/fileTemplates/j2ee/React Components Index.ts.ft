@@ -1,7 +1,11 @@
 import { memo } from "react";
 import { Dispatch } from "@reduxjs/toolkit";
 import { connect } from "react-redux";
-
+#set ( $len = $STORE_PATH.lastIndexOf('.'))
+#set ( $storeFileName = $STORE_PATH.substring(0, $len) )
+#if (${IS_TS} && ${STORE_PATH} && ${STORE_CLASS_NAME})
+import { ${STORE_CLASS_NAME} } from "$storeFileName";
+#end
 import ${COMPONENT_NAME} from "./${COMPONENT_FILE_NAME}";
 #if (${IS_TS} && ${WITH_TYPES})
 import {
@@ -10,7 +14,7 @@ import {
 } from "./${COMPONENT_TYPES_FILE_NAME}";
 #end
 
-const mapStateToProps = (state#if (${IS_TS}): any#end)#if (${IS_TS} && ${WITH_TYPES}): ${COMPONENT_STATE_PROPS_NAME}#end => ({});
+const mapStateToProps = (state#if (${IS_TS}):#if (${STORE_CLASS_NAME}) ${STORE_CLASS_NAME}#else any#end#end)#if (${IS_TS} && ${WITH_TYPES}): ${COMPONENT_STATE_PROPS_NAME}#end => ({});
 
 const mapDispatchToProps = (dispatch#if (${IS_TS}): Dispatch#end)#if (${IS_TS} && ${WITH_TYPES}): ${COMPONENT_DISPATCH_PROPS_NAME}#end => ({});
 

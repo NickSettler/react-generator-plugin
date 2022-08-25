@@ -8,10 +8,13 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -45,6 +48,8 @@ public class CreateReactComponentAction extends AnAction {
         VirtualFile file = e.getData(PlatformDataKeys.VIRTUAL_FILE);
 
         assert file != null;
+
+        ReactGeneratorSettingsState settings = ReactGeneratorSettingsState.getInstance();
 
         ReactComponentNameDialog dialog = new ReactComponentNameDialog();
         if (dialog.showAndGet()) {
@@ -94,6 +99,14 @@ public class CreateReactComponentAction extends AnAction {
             Properties properties = new Properties();
             if (useTypescript) properties.setProperty("IS_TS", "true");
             if (generateTypesFile) properties.setProperty("WITH_TYPES", "true");
+            if (StringUtil.isNotEmpty(settings.storePath)) {
+                Path storePath = Paths.get(settings.storePath);
+                Path currentPath = Paths.get(finalFile.get().getPath());
+                Path pathRelative = currentPath.relativize(storePath);
+                properties.setProperty("STORE_PATH", pathRelative.toString());
+            }
+            if (StringUtil.isNotEmpty(settings.storeClassName))
+                properties.setProperty("STORE_CLASS_NAME", settings.storeClassName);
 
             properties.setProperty("COMPONENT_NAME", componentName);
 
