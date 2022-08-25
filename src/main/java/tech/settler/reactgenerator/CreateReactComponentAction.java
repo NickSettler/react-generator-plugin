@@ -104,7 +104,6 @@ public class CreateReactComponentAction extends AnAction {
                     finalFile.set(newDirectory);
                 });
 
-            String componentFileName = componentName + componentExtension;
             String componentTypesFileName = componentName + ".types";
             String componentStyledFileName = componentName + ".styled";
             String componentHookFileName = "use" + componentName;
@@ -122,7 +121,7 @@ public class CreateReactComponentAction extends AnAction {
 
             properties.setProperty("COMPONENT_NAME", componentName);
 
-            properties.setProperty("COMPONENT_FILE_NAME", componentFileName);
+            properties.setProperty("COMPONENT_FILE_NAME", componentName);
             properties.setProperty("COMPONENT_TYPES_FILE_NAME", componentTypesFileName);
             properties.setProperty("COMPONENT_STYLED_FILE_NAME", componentStyledFileName);
             properties.setProperty("COMPONENT_HOOK_FILE_NAME", componentHookFileName);
@@ -137,7 +136,7 @@ public class CreateReactComponentAction extends AnAction {
             FileTemplate componentTemplate = FileTemplateManager.getInstance(project)
                     .getJ2eeTemplate(ReactComponentsFileTemplateGroupFactory.COMPONENT_TEMPLATE);
 
-            ApplicationManager.getApplication().runWriteAction(createFile(project, finalFile.get(), componentFileName, componentTemplate, properties));
+            ApplicationManager.getApplication().runWriteAction(createFile(project, finalFile.get(), componentName + componentExtension, componentTemplate, properties));
 
             if (generateIndexFile) {
                 FileTemplate indexTemplate = FileTemplateManager.getInstance(project)
