@@ -35,6 +35,12 @@
                 text="Create React Component">
             <add-to-group group-id="tech.settler.reactgenerator.FileMenuGroup" anchor="first"/>
         </action>
+        <action id="tech.settler.reactgenerator.CreateReduxModuleAction"
+                class="tech.settler.reactgenerator.CreateReduxModuleAction"
+                text="Create Redux Module">
+            <add-to-group group-id="tech.settler.reactgenerator.FileMenuGroup" anchor="after"
+                          relative-to-action="tech.settler.reactgenerator.CreateReactComponentAction"/>
+        </action>
         <action class="com.intellij.openapi.actionSystem.Separator">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
                           relative-to-action="tech.settler.reactgenerator.FileMenuGroup"/>
