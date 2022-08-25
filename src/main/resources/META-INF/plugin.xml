@@ -1,0 +1,43 @@
+<idea-plugin>
+    <id>tech.settler.react-generator</id>
+
+    <name>React Generator</name>
+
+    <vendor email="jetbrains@settler.tech" url="https://settler.tech">Settler Tech</vendor>
+
+    <description><![CDATA[
+    React generator. The following features are available:
+    <ul>
+    <li>Generate React component by its name</li>
+    <li>Customize generation template files</li>
+    <li>Generate component in TypeScript</li>
+    </ul>
+  ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="tech.settler.reactgenerator.ReactGeneratorSettingsState"/>
+        <applicationConfigurable
+                parentId="tools"
+                instance="tech.settler.reactgenerator.ReactGeneratorConfigurable"
+                id="tech.settler.reactgenerator.ReactGeneratorConfigurable"
+                displayName="React Generator"/>
+        <fileTemplateGroup implementation="tech.settler.reactgenerator.ReactComponentsFileTemplateGroupFactory" />
+    </extensions>
+    <actions>
+        <group id="tech.settler.reactgenerator.FileMenuGroup" text="React Generator" popup="true">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="before"
+                          relative-to-action="ProjectViewPopupMenuModifyGroup"/>
+        </group>
+        <action id="tech.settler.reactgenerator.CreateReactComponentAction"
+                class="tech.settler.reactgenerator.CreateReactComponentAction"
+                text="Create React Component">
+            <add-to-group group-id="tech.settler.reactgenerator.FileMenuGroup" anchor="first"/>
+        </action>
+        <action class="com.intellij.openapi.actionSystem.Separator">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
+                          relative-to-action="tech.settler.reactgenerator.FileMenuGroup"/>
+        </action>
+    </actions>
+</idea-plugin>

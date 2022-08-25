@@ -1,0 +1,12 @@
+#if (${IS_TS} && ${WITH_TYPES})
+import {
+    ${COMPONENT_PROPS_NAME},
+    ${COMPONENT_HOOK_TYPE_NAME}
+} from "./${COMPONENT_TYPES_FILE_NAME}";
+
+#end
+const ${COMPONENT_HOOK_NAME} = ({}#if (${IS_TS} && ${WITH_TYPES}): ${COMPONENT_PROPS_NAME}#end)#if (${IS_TS} && ${WITH_TYPES}): ${COMPONENT_HOOK_TYPE_NAME}#end => {
+    return {};
+}
+
+export default ${COMPONENT_HOOK_NAME};

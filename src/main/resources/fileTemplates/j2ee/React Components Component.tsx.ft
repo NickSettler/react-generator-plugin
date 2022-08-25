@@ -1,0 +1,10 @@
+import React from "react";
+#if (${IS_TS} && ${WITH_TYPES})
+import { ${COMPONENT_PROPS_NAME} } from "./${COMPONENT_TYPES_FILE_NAME}";
+#end
+
+const ${COMPONENT_NAME}#if (${IS_TS}): React.FC#if (${WITH_TYPES})<${COMPONENT_PROPS_NAME}>#end#end = (props#if (${IS_TS} && ${WITH_TYPES}): ${COMPONENT_PROPS_NAME}#end)#if (${IS_TS}): React.ReactElement#end => {
+    return <></>;
+}
+
+export default ${COMPONENT_NAME};
