@@ -1,6 +1,7 @@
 package tech.settler.reactgenerator;
 
 import com.intellij.openapi.options.Configurable;
+import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +31,8 @@ public class ReactGeneratorConfigurable implements Configurable {
         modified |= settingsComponent.getGenerateHookFile() != settings.generateHookFile;
         modified |= settingsComponent.getGenerateStyledFile() != settings.generateStyledFile;
         modified |= settingsComponent.getGenerateSagaFile() != settings.generateSagaFile;
+        modified |= !settingsComponent.getStorePath().equals(settings.storePath);
+        modified |= !settingsComponent.getStoreClassName().equals(settings.storeClassName);
 
         return modified;
     }
@@ -43,6 +46,18 @@ public class ReactGeneratorConfigurable implements Configurable {
         settings.generateHookFile = settingsComponent.getGenerateHookFile();
         settings.generateStyledFile = settingsComponent.getGenerateStyledFile();
         settings.generateSagaFile = settingsComponent.getGenerateSagaFile();
+        if (StringUtil.isNotEmpty(settingsComponent.getStorePath())) {
+            if (StringUtil.isNotEmpty(settingsComponent.getStoreClassName())) {
+                settings.storePath = settingsComponent.getStorePath();
+                settings.storeClassName = settingsComponent.getStoreClassName();
+            }
+        } else {
+            settingsComponent.setStorePath("");
+            settingsComponent.setStoreClassName("");
+
+            settings.storePath = settingsComponent.getStorePath();
+            settings.storeClassName = settingsComponent.getStoreClassName();
+        }
     }
 
     @Override
@@ -54,6 +69,8 @@ public class ReactGeneratorConfigurable implements Configurable {
         settingsComponent.setGenerateHookFile(settings.generateHookFile);
         settingsComponent.setGenerateStyledFile(settings.generateStyledFile);
         settingsComponent.setGenerateSagaFile(settings.generateSagaFile);
+        settingsComponent.setStorePath(settings.storePath);
+        settingsComponent.setStoreClassName(settings.storeClassName);
     }
 
     @Override

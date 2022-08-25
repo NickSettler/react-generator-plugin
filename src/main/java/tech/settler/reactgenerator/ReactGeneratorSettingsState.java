@@ -22,6 +22,10 @@ public class ReactGeneratorSettingsState implements PersistentStateComponent<Rea
 
     public boolean generateSagaFile = false;
 
+    public String storePath = "";
+
+    public String storeClassName = "";
+
     public static ReactGeneratorSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(ReactGeneratorSettingsState.class);
     }
