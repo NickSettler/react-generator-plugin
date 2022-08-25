@@ -1,6 +1,11 @@
+#set ( $len = $STORE_PATH.lastIndexOf('.'))
+#set ( $storeFileName = $STORE_PATH.substring(0, $len) )
 #if (${IS_TS})
 import { ${MODULE_SCHEMA_TYPE} } from "./types/${MODULE_NAME}.types";
 #end
+#if (${IS_TS} && ${STORE_PATH} && ${STORE_CLASS_NAME})
+import { ${STORE_CLASS_NAME} } from "$storeFileName";
+#end
 import { moduleName } from "./module";
 
-export const ${MODULE_NAME}State = (state#if (${IS_TS}): any#end)#if (${IS_TS}): ${MODULE_SCHEMA_TYPE}#end => state[moduleName];
+export const ${MODULE_NAME}State = (state#if (${IS_TS}):#if (${STORE_CLASS_NAME}) ${STORE_CLASS_NAME}#else any#end#end)#if (${IS_TS}): ${MODULE_SCHEMA_TYPE}#end => state[moduleName];

@@ -8,11 +8,14 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -47,6 +50,8 @@ public class CreateReduxModuleAction extends AnAction {
 
         assert file != null;
 
+        ReactGeneratorSettingsState settings = ReactGeneratorSettingsState.getInstance();
+
         ReactReduxModuleDialog dialog = new ReactReduxModuleDialog();
         if (dialog.showAndGet()) {
             String moduleName = dialog.moduleNameField.getText().trim();
@@ -80,6 +85,14 @@ public class CreateReduxModuleAction extends AnAction {
             Properties properties = new Properties();
             if (useTypescript) properties.setProperty("IS_TS", "true");
             if (generateSagaFile) properties.setProperty("GENERATE_SAGA_FILE", "true");
+            if (StringUtil.isNotEmpty(settings.storePath)) {
+                Path storePath = Paths.get(settings.storePath);
+                Path currentPath = Paths.get(finalFile.get().getPath());
+                Path pathRelative = currentPath.relativize(storePath);
+                properties.setProperty("STORE_PATH", pathRelative.toString());
+            }
+            if (StringUtil.isNotEmpty(settings.storeClassName))
+                properties.setProperty("STORE_CLASS_NAME", settings.storeClassName);
 
             properties.setProperty("MODULE_NAME", moduleName);
             properties.setProperty("MODULE_SCHEMA_TYPE", moduleSchemaType);
