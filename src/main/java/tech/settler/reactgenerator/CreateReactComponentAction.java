@@ -7,7 +7,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,35 +35,6 @@ public class CreateReactComponentAction extends AnAction {
         e.getPresentation().setEnabledAndVisible(enabled);
     }
 
-    private Runnable createFile(Project project, VirtualFile file, String filename) {
-        return () -> {
-            try {
-                file.createChildData(this, filename);
-            } catch (IOException ex) {
-                Messages.showErrorDialog(project, "Could not create file " + filename, "Error");
-            }
-        };
-    }
-
-    private Runnable createFile(Project project, VirtualFile file, String filename, FileTemplate template, Properties properties) {
-        return () -> {
-            String renderedTemplate;
-
-            try {
-                renderedTemplate = template.getText(properties);
-            } catch (IOException e1) {
-                Messages.showErrorDialog(project, "Could not render template", "Error");
-                return;
-            }
-            try {
-                VirtualFile componentFile = file.createChildData(this, filename);
-                componentFile.setBinaryContent(renderedTemplate.getBytes());
-            } catch (IOException ex) {
-                Messages.showErrorDialog(project, "Could not create file " + filename, "Error");
-            }
-        };
-    }
-
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = e.getProject();
@@ -84,10 +54,10 @@ public class CreateReactComponentAction extends AnAction {
             boolean generateHookFile = dialog.generateHookFileCheckBox.isSelected();
             boolean generateStyledFile = dialog.generateStyledFileCheckBox.isSelected();
 
+            if (componentName.isEmpty()) return;
+
             String fileExtension = useTypescript ? ".ts" : ".js";
             String componentExtension = fileExtension + "x";
-
-            if (componentName.isEmpty()) return;
 
             String directoryName = file.getName();
 
@@ -136,28 +106,28 @@ public class CreateReactComponentAction extends AnAction {
             FileTemplate componentTemplate = FileTemplateManager.getInstance(project)
                     .getJ2eeTemplate(ReactComponentsFileTemplateGroupFactory.COMPONENT_TEMPLATE);
 
-            ApplicationManager.getApplication().runWriteAction(createFile(project, finalFile.get(), componentName + componentExtension, componentTemplate, properties));
+            ApplicationManager.getApplication().runWriteAction(FileProcessor.createFile(project, finalFile.get(), componentName + componentExtension, componentTemplate, properties));
 
             if (generateIndexFile) {
                 FileTemplate indexTemplate = FileTemplateManager.getInstance(project)
                         .getJ2eeTemplate(ReactComponentsFileTemplateGroupFactory.COMPONENT_INDEX);
-                ApplicationManager.getApplication().runWriteAction(createFile(project, finalFile.get(), "index" + fileExtension, indexTemplate, properties));
+                ApplicationManager.getApplication().runWriteAction(FileProcessor.createFile(project, finalFile.get(), "index" + fileExtension, indexTemplate, properties));
             }
 
             if (useTypescript && generateTypesFile) {
                 FileTemplate typesTemplate = FileTemplateManager.getInstance(project)
                         .getJ2eeTemplate(ReactComponentsFileTemplateGroupFactory.COMPONENT_TYPES);
-                ApplicationManager.getApplication().runWriteAction(createFile(project, finalFile.get(), componentTypesFileName + fileExtension, typesTemplate, properties));
+                ApplicationManager.getApplication().runWriteAction(FileProcessor.createFile(project, finalFile.get(), componentTypesFileName + fileExtension, typesTemplate, properties));
             }
 
             if (generateHookFile) {
                 FileTemplate hookTemplate = FileTemplateManager.getInstance(project)
                         .getJ2eeTemplate(ReactComponentsFileTemplateGroupFactory.COMPONENT_HOOK);
-                ApplicationManager.getApplication().runWriteAction(createFile(project, finalFile.get(), componentHookFileName + fileExtension, hookTemplate, properties));
+                ApplicationManager.getApplication().runWriteAction(FileProcessor.createFile(project, finalFile.get(), componentHookFileName + fileExtension, hookTemplate, properties));
             }
 
             if (generateStyledFile) {
-                ApplicationManager.getApplication().runWriteAction(createFile(project, finalFile.get(), componentStyledFileName + fileExtension));
+                ApplicationManager.getApplication().runWriteAction(FileProcessor.createFile(project, finalFile.get(), componentStyledFileName + fileExtension));
             }
         }
     }
