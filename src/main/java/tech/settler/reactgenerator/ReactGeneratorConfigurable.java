@@ -29,6 +29,7 @@ public class ReactGeneratorConfigurable implements Configurable {
         modified |= settingsComponent.getGenerateTypesFile() != settings.generateTypesFile;
         modified |= settingsComponent.getGenerateHookFile() != settings.generateHookFile;
         modified |= settingsComponent.getGenerateStyledFile() != settings.generateStyledFile;
+        modified |= settingsComponent.getGenerateSagaFile() != settings.generateSagaFile;
 
         return modified;
     }
@@ -41,6 +42,7 @@ public class ReactGeneratorConfigurable implements Configurable {
         settings.generateTypesFile = settingsComponent.getGenerateTypesFile();
         settings.generateHookFile = settingsComponent.getGenerateHookFile();
         settings.generateStyledFile = settingsComponent.getGenerateStyledFile();
+        settings.generateSagaFile = settingsComponent.getGenerateSagaFile();
     }
 
     @Override
@@ -51,6 +53,7 @@ public class ReactGeneratorConfigurable implements Configurable {
         settingsComponent.setGenerateTypesFile(settings.generateTypesFile);
         settingsComponent.setGenerateHookFile(settings.generateHookFile);
         settingsComponent.setGenerateStyledFile(settings.generateStyledFile);
+        settingsComponent.setGenerateSagaFile(settings.generateSagaFile);
     }
 
     @Override

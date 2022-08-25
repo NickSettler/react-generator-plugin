@@ -20,6 +20,8 @@ public class ReactGeneratorSettingsState implements PersistentStateComponent<Rea
     public boolean generateHookFile = false;
     public boolean generateStyledFile = false;
 
+    public boolean generateSagaFile = false;
+
     public static ReactGeneratorSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(ReactGeneratorSettingsState.class);
     }
