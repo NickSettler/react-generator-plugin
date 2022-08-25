@@ -1,0 +1,6 @@
+#if (${IS_TS})
+import { ${MODULE_SCHEMA_TYPE} } from "./types/${MODULE_NAME}.types";
+#end
+import { moduleName } from "./module";
+
+export const ${MODULE_NAME}State = (state#if (${IS_TS}): any#end)#if (${IS_TS}): ${MODULE_SCHEMA_TYPE}#end => state[moduleName];

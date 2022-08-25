@@ -1,0 +1,5 @@
+#if (${IS_TS})
+import { ${MODULE_SCHEMA_TYPE} } from "./types/${MODULE_NAME}.types";
+
+#end
+export const StateSchema#if (${IS_TS}): ${MODULE_SCHEMA_TYPE}#end = {};

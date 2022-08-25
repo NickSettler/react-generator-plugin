@@ -1,0 +1,10 @@
+import { StateSchema } from "./schema";
+import {#if (${IS_TS}) ActionReducerMapBuilder,#end createReducer } from "@reduxjs/toolkit";
+#if (${IS_TS})
+import { ${MODULE_SCHEMA_TYPE} } from "./types/${MODULE_NAME}.types";
+#end
+
+export default createReducer(
+    StateSchema,
+    (builder#if (${IS_TS}): ActionReducerMapBuilder<${MODULE_SCHEMA_TYPE}>#end) => {}
+);

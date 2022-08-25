@@ -1,0 +1,10 @@
+import reducer from "./reducer";
+
+export * from "./module";
+#if (${GENERATE_SAGA_FILE})
+export * from "./saga";
+#end
+export * from "./selectors";
+export * from "./actions";
+export * from "./schema";
+export default reducer;
