@@ -5,6 +5,7 @@ import com.intellij.openapi.ui.ComponentValidator;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.ui.ValidationInfo;
+import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.IdeBorderFactory;
@@ -167,5 +168,9 @@ public class ReactGeneratorSettingsComponent {
 
     public void setStoreClassName(String newValue) {
         storeClassNameField.setText(newValue);
+    }
+
+    public void dispose() {
+        Disposer.dispose(storePathField);
     }
 }

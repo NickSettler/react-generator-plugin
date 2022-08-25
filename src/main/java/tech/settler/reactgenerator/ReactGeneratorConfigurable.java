@@ -75,6 +75,7 @@ public class ReactGeneratorConfigurable implements Configurable {
 
     @Override
     public void disposeUIResources() {
+        settingsComponent.dispose();
         settingsComponent = null;
     }
 }
