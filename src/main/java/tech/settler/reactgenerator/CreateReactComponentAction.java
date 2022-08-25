@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,6 +56,11 @@ public class CreateReactComponentAction extends AnAction {
             boolean generateStyledFile = dialog.generateStyledFileCheckBox.isSelected();
 
             if (componentName.isEmpty()) return;
+
+            if (componentName.matches("^\\d.*$")) {
+                Messages.showErrorDialog("Component name should not start with a number", "Error");
+                return;
+            }
 
             String fileExtension = useTypescript ? ".ts" : ".js";
             String componentExtension = fileExtension + "x";
