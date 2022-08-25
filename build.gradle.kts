@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "tech.settler"
-version = "1.1"
+version = "1.2"
 
 repositories {
     mavenCentral()
@@ -27,7 +27,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("213")
+        sinceBuild.set("193")
         untilBuild.set("223.*")
     }
 
